@@ -97,7 +97,7 @@ ENABLE_PROXY_FIX = False
 APP_NAME = 'Superset'
 
 # Uncomment to setup an App icon
-APP_ICON = '/static/assets/images/breeding-logo.png'
+APP_ICON = '/static/assets/images/breeding-logo-white.png'
 
 # Druid query timezone
 # tz.tzutc() : Using utc timezone
