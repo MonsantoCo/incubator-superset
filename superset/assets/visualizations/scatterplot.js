@@ -110,6 +110,17 @@ function scatterplot(slice, payload) {
         // on scroll, hide tooltips. throttle to only 4x/second.
         $(window).scroll(throttle(hideTooltips, 250));
 
+
+        const xAxisFormatter = d3FormatPreset(fd.x_axis_format)
+        if (chart.xAxis && chart.xAxis.tickFormat) {
+            chart.xAxis.tickFormat(xAxisFormatter)
+        }
+
+        const yAxisFormatter = d3FormatPreset(fd.y_axis_format)
+        if (chart.yAxis && chart.yAxis.tickFormat) {
+            chart.yAxis.tickFormat(yAxisFormatter)
+        }
+
         svg.datum(data)
            .transition().duration(500)
            .attr('height', height)
@@ -117,7 +128,7 @@ function scatterplot(slice, payload) {
            .call(chart);
 
         return chart;
-    };
+    }
 
     // hide tooltips before rendering chart, if the chart is being re-rendered sometimes
     // there are left over tooltips in the dom,
