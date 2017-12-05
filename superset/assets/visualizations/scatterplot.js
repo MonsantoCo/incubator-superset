@@ -21,14 +21,40 @@ function hideTooltips() {
     $('.nvtooltip').css({ opacity: 0 });
 }
 
+/* eslint-disable camelcase */
+function formatLabel(column, verbose_map) {
+    let label;
+    if (Array.isArray(column) && column.length) {
+        label = verbose_map[column[0]] || column[0];
+        if (column.length > 1) {
+            label += ', ';
+        }
+        label += column.slice(1).join(', ');
+    } else {
+        label = verbose_map[column] || column;
+    }
+    return label;
+}
+/* eslint-enable camelcase */
+
+/**
+ * NVD3 scatter plot data format
+ *  [{
+ *     key    : 'group1'
+ *     values : [{x,y,size,shape(opt)}...{..}]
+ *  },
+ *  ...
+ *  {key,values}]
+ */
+
 
 function scatterplot(slice, payload) {
     let chart;
 
     let data;
-    if (payload.data) {
-        data = payload.data.map(x => ({
-            ...x,
+    if (payload.data.data) {
+        data = payload.data.data.map(x => ({
+            ...x, key: formatLabel(x.key, slice.datasource.verbose_map)
     }));
     } else {
         data = [];
@@ -38,8 +64,9 @@ function scatterplot(slice, payload) {
     slice.clearError();
 
 
-    let width = slice.width();
-    const fd = slice.formData;
+    let width  = slice.width()
+    let height = slice.height()
+    const fd   = slice.formData;
 
     let row;
 
@@ -52,6 +79,7 @@ function scatterplot(slice, payload) {
         chart = nv.models.scatterChart();
         chart.showDistX(true);
         chart.showDistY(true);
+        const f = d3.format('.3s');
         chart.tooltip.contentGenerator(function (obj) {
             const p = obj.point;
             let s = '<table>';
@@ -77,9 +105,16 @@ function scatterplot(slice, payload) {
             }
         }
 
-
+        chart.height(slice.height())
+        chart.width(slice.width())
         // on scroll, hide tooltips. throttle to only 4x/second.
         $(window).scroll(throttle(hideTooltips, 250));
+
+        svg.datum(data)
+           .transition().duration(500)
+           .attr('height', height)
+           .attr('width', width)
+           .call(chart);
 
         return chart;
     };

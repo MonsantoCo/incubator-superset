@@ -29,6 +29,7 @@ import simplejson as json
 from six import PY3, string_types
 from six.moves import reduce
 
+import superset.statistics_utility as stats
 from superset import app, cache, get_manifest_file, utils
 from superset.utils import DTTM_ALIAS, merge_extra_filters
 
@@ -2100,14 +2101,27 @@ class ScatterPlot(BaseViz):
         df['group'] = df[[self.series]]
 
         series = defaultdict(list)
+
         for row in df.to_dict(orient='records'):
             series[row['group']].append(row)
         chart_data = []
         for k, v in series.items():
+            x = df.loc[df['group'] == k]['x']
+            y = df.loc[df['group'] == k]['y']
+            lr = stats.linear_regression(x,y)
             chart_data.append({
-                'key': k,
-                'values': v})
-        return chart_data
+                'key'       : k,
+                'values'    : v,
+                'slope'     : lr['slope'],
+                'intercept' : lr['intercept']
+            })
+
+        del lr['line_pts'] # not serializable plus not needed
+        return {
+            'data'            : chart_data,
+            'regression_info' : lr,
+            'regression_data' : linepoints
+        }
 
 
 #

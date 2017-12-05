@@ -15,8 +15,6 @@ class StatsUtilTestCase(unittest.TestCase):
     #     exception = "Array X, Y must be of equal lengths"
     #     self.assertRaises(exception,stats.linear_regression(datasource,datasource))
     def test_with_valid_inputs(self):
-
-
         xData = [1,2,3]
         yData = [4,5,6]
         test = stats.linear_regression(xData,yData)
