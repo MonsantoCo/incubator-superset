@@ -2060,6 +2060,92 @@ class PartitionViz(NVD3TimeSeriesViz):
         return self.nest_values(levels)
 
 
+class ScatterPlot(BaseViz):
+
+    """Based on the NVD3 scatter plot chart"""
+
+    viz_type = 'scatterplot'
+    verbose_name = _('Scatter Plot')
+    is_timeseries = False
+
+    def query_obj(self):
+        form_data = self.form_data
+        d = super(ScatterPlot, self).query_obj()
+        d['groupby'] = [
+            form_data.get('entity'),
+        ]
+        if form_data.get('series'):
+            d['groupby'].append(form_data.get('series'))
+        self.x_metric = form_data.get('x')
+        self.y_metric = form_data.get('y')
+        self.z_metric = form_data.get('size')
+        self.entity = form_data.get('entity')
+        self.series = form_data.get('series') or self.entity
+        d['row_limit'] = form_data.get('limit')
+
+        d['metrics'] = [
+            self.z_metric,
+            self.x_metric,
+            self.y_metric,
+        ]
+        if not all(d['metrics'] + [self.entity]):
+            raise Exception(_('Pick a metric for x, y and size'))
+        return d
+
+    def get_data(self, df):
+        df['x'] = df[[self.x_metric]]
+        df['y'] = df[[self.y_metric]]
+        df['size'] = df[[self.z_metric]]
+        df['shape'] = 'circle'
+        df['group'] = df[[self.series]]
+
+        series = defaultdict(list)
+        for row in df.to_dict(orient='records'):
+            series[row['group']].append(row)
+        chart_data = []
+        for k, v in series.items():
+            chart_data.append({
+                'key': k,
+                'values': v})
+        return chart_data
+
+
+#
+# class OpenLayers(BaseViz):
+#
+#     """openLayers example"""
+#
+#     viz_type = "openLayers"
+#     verbose_name = _("OpenLayers")
+#     is_timeseries = False
+#     credits = ('Thomas Cervantes Collier')
+#
+#     def query_obj(self):
+#         d  = super(OpenLayers, self).query_obj()
+#
+#         fd = self.form_data
+#
+#         d['columns'] = [fd.get('all_columns_x'), fd.get('all_columns_y')]
+#
+#         return d
+#
+#
+#     def get_data(self, df):
+#
+#         fd = self.form_data
+#
+#         lon = df[fd.get('all_columns_x')]
+#         lat = df[fd.get('all_columns_y')]
+#         if (lat.size != lon.size) :
+#             raise Exception(_("latitude and longitudes don't match up in length"))
+#
+#         coordinates = zip(lon,lat)
+#
+#         return dict(
+#             coordinates = coordinates
+#         )
+#
+
 viz_types = {
     o.viz_type: o for o in globals().values()
     if (

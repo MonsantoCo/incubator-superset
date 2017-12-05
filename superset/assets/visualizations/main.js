@@ -40,5 +40,6 @@ const vizMap = {
   deck_screengrid: require('./deckgl/screengrid.jsx'),
   deck_grid: require('./deckgl/grid.jsx'),
   deck_hex: require('./deckgl/hex.jsx'),
+  scatterplot: require('./scatterplot.js'),
 };
 export default vizMap;

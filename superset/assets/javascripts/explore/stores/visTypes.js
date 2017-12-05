@@ -1332,6 +1332,57 @@ export const visTypes = {
       sections.NVD3TimeSeries[1],
     ],
   },
+  scatterplot: {
+      label: t('scatter plot'),
+          controlPanelSections: [
+          {
+              label: t('Query'),
+              expanded: true,
+              controlSetRows: [
+                  ['series', 'entity'],
+                  ['size', 'limit'],
+              ],
+          },
+          {
+              label: t('Chart Options'),
+              controlSetRows: [
+                  ['color_scheme'],
+                  ['show_legend', null],
+              ],
+          },
+          {
+              label: t('Bubbles'),
+              controlSetRows: [
+                  ['size', 'max_bubble_size'],
+              ],
+          },
+          {
+              label: t('X Axis'),
+              controlSetRows: [
+                  ['x_axis_label', 'left_margin'],
+                  ['x', 'x_axis_format'],
+                  ['x_log_scale', 'x_axis_showminmax'],
+              ],
+          },
+          {
+              label: t('Y Axis'),
+              controlSetRows: [
+                  ['y_axis_label', 'bottom_margin'],
+                  ['y', 'y_axis_format'],
+                  ['y_log_scale', 'y_axis_showminmax'],
+              ],
+          },
+      ],
+      controlOverrides: {
+        x_axis_format: {
+        default: '.3s',
+        },
+        color_scheme: {
+            renderTrigger: false,
+        },
+      },
+  },
+
 };
 
 export default visTypes;
