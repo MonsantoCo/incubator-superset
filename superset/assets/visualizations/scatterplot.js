@@ -52,8 +52,8 @@ function scatterplot(slice, payload) {
     let chart;
 
     let data;
-    if (payload.data.data) {
-        data = payload.data.data.map(x => ({
+    if (payload.data) {
+        data = payload.data.map(x => ({
             ...x, key: formatLabel(x.key, slice.datasource.verbose_map)
     }));
     } else {

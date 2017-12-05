@@ -2116,12 +2116,8 @@ class ScatterPlot(BaseViz):
                 'intercept' : lr['intercept']
             })
 
-        del lr['line_pts'] # not serializable plus not needed
-        return {
-            'data'            : chart_data,
-            'regression_info' : lr,
-            'regression_data' : linepoints
-        }
+        return chart_data
+
 
 
 #
