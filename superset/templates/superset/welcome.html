@@ -5,27 +5,63 @@
 {% block body %}
 <div class="container welcome">
   {% include 'superset/flash_wrapper.html' %}
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <div class="panel-title">
-        <div class="row">
-          <div class="col-md-6">
-            <h2>{{ _("Dashboards") }}</h2>
-          </div>
-          <div class="col-md-6">
-            <div class="search-container pull-right">
-              <i class="fa fa-search"></i>
-              <span class="search"></span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+{#  <div class="panel panel-default">#}
+{#    <div class="panel-heading">#}
+{#      <div class="panel-title">#}
+{#        <div class="row">#}
+{#          <div class="col-md-6">#}
+{#            <h2>{{ _("Dashboards") }}</h2>#}
+{#          </div>#}
+{#          <div class="col-md-6">#}
+{#            <div class="search-container pull-right">#}
+{#              <i class="fa fa-search"></i>#}
+{#              <span class="search"></span>#}
+{#            </div>#}
+{#          </div>#}
+{#        </div>#}
+{#      </div>#}
+{#    </div>#}
     <div class="panel-body">
-      <img class="loading" src="/static/assets/images/loading.gif"/>
-      <table id="dash_table" class="table" width="100%"></table>
+        <div style="margin-bottom:100px;">
+            <span style="font-size:50px;font-weight:300;">Welcome {{ user }}</span>
+            <img src="/static/assets/images/breeding-logo-medium.png" style="float:right;" />
+        </div>
+{#      <img class="loading" src="/static/assets/images/loading.gif"/>#}
+{#      <table id="dash_table" class="table" width="100%"></table>#}
+        <div class="container ">
+
+            <!-- Three columns of text below the carousel -->
+            <div class="row">
+                <div class="col-lg-4" style="text-align:center;">
+                    <img class="img-circle" src="/static/assets/images/viz_thumbnails/deck_scatter.png" alt="Generic placeholder image" width="140" height="140">
+                    <h2>What!</h2>
+                    <p><strong>Superset</strong> is a data exploration platform designed to be visual, intuitive and interactive.</p>
+                </div><!-- /.col-lg-4 -->
+                <div class="col-lg-4" style="text-align:center;">
+                    <img class="img-circle" src="/static/assets/images/viz_thumbnails/partition.png" alt="Generic placeholder image" width="140" height="140">
+                    <h2>Why!</h2>
+                    <p>&#x261B; Intuitively visualize data sets to share with your customers
+                       &#x261B; Fast loading dashboards and responsive interactions through auto scaling
+                    </p>
+
+                </div><!-- /.col-lg-4 -->
+                <div class="col-lg-4" style="text-align:center;">
+                    <img class="img-circle" src="/static/assets/images/viz_thumbnails/table.png" alt="Generic placeholder image" width="140" height="140">
+                    <h2>How!</h2>
+                    <ul style="list-style-type: none; padding-right: -40px;">
+                        <li><strong>Questions & Comments to</strong></li>
+                        <li><a href="https://monslacko.slack.com/messages/C7SUDGPRC"> <img src="/static/assets/images/slack-50.png"/> Superset Slack Channel</a></li>
+                    </ul>
+
+
+                </div><!-- /.col-lg-4 -->
+            </div><!-- /.row -->
+
+
+
+        </div>
     </div>
-  </div>
+{#  </div>#}
 </div>
 {% endblock %}
 
